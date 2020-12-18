@@ -35,10 +35,7 @@ Beware of
 
 ### matchAll(string, matcher)
 
-Returns: `Array`
-
-⚠️ As opposed to native implementation, it **returns array instead of
-[iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)**.
+Returns: `Iterator`
 
 #### string
 

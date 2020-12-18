@@ -1,3 +1,5 @@
+import iterator from '@ungap/array-iterator';
+
 const supportsGroups = 'groups' in /a/.exec('a');
 
 const isInfiniteLoop = (previousMatch, match) => {
@@ -18,7 +20,8 @@ const INFINITE_LOOP_ERROR = 'Infinite loop.';
  * @param  {string} string
  * @param  {string|RegExp} _matcher
  *
- * @returns {Array}
+ * @returns {object}
+ * @throws {TypeError}
  */
 function implementation(string, _matcher) {
 	if (typeof string !== 'string') {
@@ -69,7 +72,10 @@ function implementation(string, _matcher) {
 		});
 	}
 
-	return matches;
+	if (typeof Symbol === 'undefined') {
+		return matches[iterator]();
+	}
+	return matches[Symbol.iterator]();
 }
 
 function preferNative(string, matcher) {

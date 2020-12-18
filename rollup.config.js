@@ -2,7 +2,10 @@
 
 const path = require('path');
 const { promises: fs } = require('fs');
+const { default: resolve } = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
 const { default: babel } = require('@rollup/plugin-babel');
+const babelCore = require('@babel/core');
 
 module.exports = {
 	input: 'index.js',
@@ -50,6 +53,44 @@ module.exports = {
 		babel({
 			babelHelpers: 'bundled',
 			exclude: 'node_modules/**'
-		})
+		}),
+		resolve(),
+		commonjs(),
+		{
+			async transform(code, id) {
+				if (id.includes('@ungap/array-iterator')) {
+					const result = await babelCore.transformAsync(code, {
+						sourceMaps: true,
+						plugins: [
+							babelCore.createConfigItem(({ types: t }) => {
+								return {
+									visitor: {
+										MemberExpression(path) {
+											if (
+												path.matchesPattern(
+													'Symbol.iterator'
+												)
+											) {
+												path.replaceWith(
+													t.numericLiteral(0)
+												);
+											}
+										}
+									}
+								};
+							})
+						]
+					});
+					return {
+						code: result.code,
+						map: result.map
+					};
+				}
+				return {
+					code: code,
+					map: null
+				};
+			}
+		}
 	]
 };
