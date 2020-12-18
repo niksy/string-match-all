@@ -77,6 +77,6 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 [ci]: https://travis-ci.com/niksy/string-match-all
 [ci-img]: https://travis-ci.com/niksy/string-match-all.svg?branch=master
 [browserstack]: https://www.browserstack.com/
-[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key>
+[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=TTZUa2lrbWhLRE51OWN4MHV0YXY5aG5nbGQ0MDRkVkMrNzBqM3k4UThrYz0tLWltdy9UNVZSeFpvOW54MWsyR0ZVVVE9PQ==--579072738dcda9e8944525d482c799fb1f5f4f99
 
 <!-- prettier-ignore-end -->
