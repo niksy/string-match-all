@@ -1,6 +1,6 @@
 {
   "name": "string-match-all",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "`String.prototype.matchAll` ponyfill.",
   "license": "MIT",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
