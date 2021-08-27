@@ -17,8 +17,8 @@ const isInfiniteLoop = (previousMatch, match) => {
 const INFINITE_LOOP_ERROR = 'Infinite loop.';
 
 /**
- * @param  {string} string
- * @param  {string|RegExp} _matcher
+ * @param {string} string
+ * @param {string|RegExp} _matcher
  *
  * @returns {object}
  * @throws {TypeError}
