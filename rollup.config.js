@@ -6,6 +6,7 @@ const { default: resolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { default: babel } = require('@rollup/plugin-babel');
 const babelCore = require('@babel/core');
+const execa = require('execa');
 
 const transpileDependencies = babel({
 	include: 'node_modules/clone-regexp/**',
@@ -32,6 +33,51 @@ module.exports = {
 		}
 	],
 	plugins: [
+		(() => {
+			return {
+				name: 'types',
+				async writeBundle(output) {
+					let prefix;
+					if (output.file.includes('cjs/')) {
+						prefix = 'cjs';
+					} else if (output.file.includes('esm/')) {
+						prefix = 'esm';
+					}
+					if (typeof prefix !== 'undefined') {
+						const tsconfig = {
+							extends: './tsconfig',
+							exclude: ['test/**/*.js'],
+							compilerOptions: {
+								declaration: true,
+								declarationMap: true,
+								declarationDir: prefix,
+								emitDeclarationOnly: true,
+								noEmit: false,
+								listEmittedFiles: true
+							}
+						};
+						const file = `.${prefix}.tsconfig.json`;
+						try {
+							await fs.writeFile(
+								file,
+								JSON.stringify(tsconfig),
+								'utf-8'
+							);
+							const { stdout } = await execa(
+								'tsc',
+								['-p', file],
+								{
+									preferLocal: true
+								}
+							);
+							console.log(stdout);
+						} finally {
+							await fs.unlink(file);
+						}
+					}
+				}
+			};
+		})(),
 		(() => {
 			return {
 				name: 'package-type',
