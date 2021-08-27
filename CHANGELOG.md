@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [1.1.0][] - 2021-08-27
+
 ### Changed
 
 -   Use fresh `RegExp` to avoid `lastIndex` mutation
@@ -18,3 +20,5 @@
 
 [unreleased]: https://github.com/niksy/string-match-all/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/niksy/string-match-all/tree/v1.0.0
+[unreleased]: https://github.com/niksy/string-match-all/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/niksy/string-match-all/tree/v1.1.0
