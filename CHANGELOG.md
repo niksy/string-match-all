@@ -2,6 +2,14 @@
 
 ## [Unreleased][]
 
+### Changed
+
+-   Use fresh `RegExp` to avoid `lastIndex` mutation
+
+### Added
+
+-   TypeScript types
+
 ## [1.0.0][] - 2020-12-18
 
 ### Added
