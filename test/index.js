@@ -1,19 +1,30 @@
+/* globals RegExpMatchArray, IterableIterator */
+
 import assert from 'assert';
 import matchAll, { preferNative } from '../index';
 
-const supportsGroups = 'groups' in /a/.exec('a');
+const supportsGroups = 'groups' in (/a/.exec('a') ?? {});
 
+/**
+ * @param {{ value: string|string[], groups?: RegExpMatchArray["groups"], [key: string]: unknown }} options
+ */
 const match = ({ value, groups, ...properties }) => {
+	/** @type {RegExpMatchArray} */
 	const item = Array.isArray(value) ? value : [value];
 	if (supportsGroups) {
 		item.groups = groups;
 	}
 	Object.keys(properties).forEach((property) => {
+		// @ts-ignore
 		item[property] = properties[property];
 	});
 	return item;
 };
 
+/**
+ * @param {IterableIterator<RegExpMatchArray>}                    actual
+ * @param {IterableIterator<RegExpMatchArray>|RegExpMatchArray[]} expected
+ */
 const deepEqual = (actual, expected) => {
 	/* eslint-disable unicorn/prefer-spread */
 	return assert.deepEqual(Array.from(actual), Array.from(expected));
@@ -28,6 +39,7 @@ after(function () {
 });
 
 it('throws a TypeError if string to search is not string', function () {
+	// @ts-ignore
 	assert.throws(() => matchAll(null, 'a', 'b'), TypeError);
 });
 
@@ -85,20 +97,27 @@ it('handles non-RegExp values', function () {
 	/* eslint-disable no-undefined */
 	const string = 'abc';
 
+	// @ts-ignore
 	deepEqual(matchAll(string, null), []);
+	// @ts-ignore
 	deepEqual(matchAll(string, NaN), []);
+	// @ts-ignore
 	deepEqual(matchAll(string, 42), []);
+	// @ts-ignore
 	deepEqual(matchAll(string, new Date()), []);
+	// @ts-ignore
 	deepEqual(matchAll(string, undefined), [
 		match({ value: '', index: 0, input: string }),
 		match({ value: '', index: 1, input: string }),
 		match({ value: '', index: 2, input: string }),
 		match({ value: '', index: 3, input: string })
 	]);
+	// @ts-ignore
 	deepEqual(matchAll(string, {}), [
 		match({ value: 'b', index: 1, input: string }),
 		match({ value: 'c', index: 2, input: string })
 	]);
+	// @ts-ignore
 	deepEqual(matchAll(string, []), [
 		match({ value: '', index: 0, input: string }),
 		match({ value: '', index: 1, input: string }),
