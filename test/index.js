@@ -120,6 +120,16 @@ it('handles zero-width matches', function () {
 	deepEqual(matchAll(string, regexp), expected);
 });
 
+it('uses fresh (cloned) RegExp object', function () {
+	const string = 'abc';
+	const regexp = new RegExp('[a-c]', 'g');
+	regexp.lastIndex = 1;
+	regexp.exec(string);
+	assert.equal(regexp.lastIndex, 2);
+	matchAll(string, regexp);
+	assert.equal(regexp.lastIndex, 2);
+});
+
 it('uses native implementation if it’s available', function () {
 	const string = 'aabcaba';
 	deepEqual(preferNative(string, 'a'), matchAll(string, /a/g));

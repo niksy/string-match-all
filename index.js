@@ -1,4 +1,5 @@
 import iterator from '@ungap/array-iterator';
+import cloneRegexp from 'clone-regexp';
 
 const supportsGroups = 'groups' in /a/.exec('a');
 
@@ -32,6 +33,8 @@ function implementation(string, _matcher) {
 
 	if (!(matcher instanceof RegExp)) {
 		matcher = new RegExp(matcher, 'g');
+	} else {
+		matcher = cloneRegexp(_matcher);
 	}
 
 	const { global: globalFlag } = matcher;

@@ -37,7 +37,8 @@
     "version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"
   },
   "dependencies": {
-    "@ungap/array-iterator": "^0.2.0"
+    "@ungap/array-iterator": "^0.2.0",
+    "clone-regexp": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
