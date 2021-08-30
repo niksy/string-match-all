@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Changed
+
+-   Skip `RegExp` cloning in native implementation
+
 ## [1.1.0][] - 2021-08-27
 
 ### Changed
@@ -18,7 +22,6 @@
 
 -   Initial implementation
 
-[unreleased]: https://github.com/niksy/string-match-all/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/niksy/string-match-all/tree/v1.0.0
 [unreleased]: https://github.com/niksy/string-match-all/compare/v1.1.0...HEAD
+[1.0.0]: https://github.com/niksy/string-match-all/tree/v1.0.0
 [1.1.0]: https://github.com/niksy/string-match-all/tree/v1.1.0

@@ -27,10 +27,14 @@ const INFINITE_LOOP_ERROR = 'Infinite loop.';
 
 /**
  * @param {string|RegExp} matcher
+ * @param {boolean}       skipCloning
  */
-function resolveMatcher(matcher) {
+function resolveMatcher(matcher, skipCloning = false) {
 	if (!(matcher instanceof RegExp)) {
 		return new RegExp(matcher, 'g');
+	}
+	if (skipCloning) {
+		return matcher;
 	}
 	return cloneRegexp(matcher);
 }
@@ -43,7 +47,7 @@ function resolveMatcher(matcher) {
  *
  * @returns {IterableIterator<RegExpMatchArray>}
  */
-function implementation(string, matcher) {
+function ponyfill(string, matcher) {
 	if (typeof string !== 'string') {
 		throw new TypeError('Expected a string');
 	}
@@ -99,7 +103,7 @@ function implementation(string, matcher) {
 }
 
 /**
- * Returns an iterator of all results matching a string against a regular expression, including capturing groups.
+ * Returns an iterator of all results matching a string against a regular expression, including capturing groups. Uses native implementation if available.
  *
  * @param   {string}                             string  String to match.
  * @param   {string|RegExp}                      matcher Value to match original string. If a non-`RegExp` object is passed, it is implicitly converted to a `RegExp` by using `new RegExp(regexp, 'g')`. The `RegExp` object must have the `global` flag, otherwise a `TypeError` will be thrown.
@@ -108,13 +112,13 @@ function implementation(string, matcher) {
  */
 function preferNative(string, matcher) {
 	if (typeof String.prototype.matchAll !== 'undefined') {
-		const composedMatcher = resolveMatcher(matcher);
+		const composedMatcher = resolveMatcher(matcher, true);
 		return string.matchAll(composedMatcher);
 	}
 	/* istanbul ignore next */
-	return implementation(string, matcher);
+	return ponyfill(string, matcher);
 }
 
-export default implementation;
+export default ponyfill;
 
 export { preferNative };
